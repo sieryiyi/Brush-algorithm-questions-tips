@@ -2,6 +2,8 @@
 
 开始尝试搭建个人博客
 
+此时力扣：90/174/7，通过率58%
+
 此项目用来记录刷算法所遇到的问题、知识点
 
 Markdone使用方法如下↓↓↓↓↓
@@ -50,3 +52,66 @@ class Solution:
 
 
 ### 堆排序
+
+### 归并排序
+
+
+
+```
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+
+        # 归并排序，最适合链表的排序
+        # 时间复杂度O(nlogn)
+        # 自顶向下，自底向上两种，后者省空间
+        # 需要俩函数，一个分割，一个排序
+        
+
+        # 本次题解抄官方的，先写自顶向下
+
+        def backsort(head,tail):
+            if not head:
+                return head
+            if head.next==tail: #tail的定义是取不到
+                head.next=None  # 说明此时只有一个节点，不需要拆分
+                return head
+            
+            slow,fast=head,head
+            while fast!=tail:
+                slow=slow.next
+                fast=fast.next
+                if fast!=tail: # 如果此时已经到了结尾，则不再移动两步
+                    fast=fast.next
+            mid = slow # 如果是偶数链表，则所在位置为中间两个的右边
+
+            return merge(backsort(head,mid),backsort(mid,tail)) #这一步会不断跳到分割里，直到分割到只有一个点，开始合并
+
+        def merge(l1,l2): # 合并两个有序链表，保证其仍然有序
+
+            dummy=ListNode()
+            temp,temp1,temp2=dummy,l1,l2
+            # temp是最终存放合并后的链表的，在此处产生了空间复杂度
+
+            while temp1 and temp2:
+                if temp1.val>=temp2.val:
+                    temp.next=temp2
+                    temp2=temp2.next
+                elif temp1.val<temp2.val:
+                    temp.next=temp1
+                    temp1=temp1.next
+                temp=temp.next
+            if temp1:
+                temp.next=temp1
+            elif temp2:
+                temp.next=temp2
+
+            return dummy.next
+
+        return backsort(head,None)
+        
+```
