@@ -1,4 +1,4 @@
-### 创建于6.17
+## 6.17
 
 开始尝试搭建个人博客
 
@@ -8,7 +8,9 @@
 
 Markdone使用方法如下↓↓↓↓↓
 
-[(https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)]
+https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
+
+## 排序算法
 
 ### 快速排序
 
@@ -53,9 +55,15 @@ class Solution:
 
 ### 堆排序
 
-### 归并排序
+### 归并排序（分治思想）
 
+时间复杂度O(nlogn)
 
+空间复杂度，O(n)的自顶向下，O(1)的自底向上
+
+自顶向下：先全部分割完，直到只有一个节点，再开始合并
+
+自底向上：
 
 ```
 # Definition for singly-linked list.
