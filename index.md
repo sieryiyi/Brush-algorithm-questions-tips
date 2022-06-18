@@ -55,6 +55,8 @@ class Solution:
 
 ### 堆排序
 
+时间复杂度：O(nlogn)
+
 需要两个函数：建堆+调整
 
 调库的话：
@@ -247,3 +249,6 @@ class Solution:
         return dummy.next
 ```
 
+### 冒泡排序
+
+### 插入排序
