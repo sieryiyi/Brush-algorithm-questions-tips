@@ -65,10 +65,10 @@ class Solution:
 
 自底向上：求出链表长度，直接一次性分割成若干个长度为sublen=1的链表，进行合并，得到若干个长度为sublen=2的链表，再合并.......直到所有链表合并完毕
 
---------------------------------------由于自底向下是直接在原有链表上进行排序，因此不需要额外O(n)的空间
+--------------------------------------
 
 ```
-# Definition for singly-linked list.--------------------------自顶向下
+--------------------------自顶向下
 # class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
@@ -82,7 +82,7 @@ class Solution:
         # 需要俩函数，一个分割，一个排序
         
 
-        # 本次题解抄官方的，先写自顶向下
+        # 本次题解参照官方的，先写自顶向下
 
         def backsort(head,tail):
             if not head:
@@ -125,3 +125,74 @@ class Solution:
         return backsort(head,None)
         
 ```
+
+自底向上：
+
+```
+class Solution:
+    def sortList(self, head: ListNode) -> ListNode:
+        def merge(l1,l2): # 合并两个有序链表，保证其仍然有序
+            dummy=ListNode()
+            temp,temp1,temp2=dummy,l1,l2
+            while temp1 and temp2:
+                if temp1.val>=temp2.val:
+                    temp.next=temp2
+                    temp2=temp2.next
+                elif temp1.val<temp2.val:
+                    temp.next=temp1
+                    temp1=temp1.next
+                temp=temp.next
+            if temp1:
+                temp.next=temp1
+            elif temp2:
+                temp.next=temp2
+
+            return dummy.next
+
+        if not head or not head.next: #特殊情况不用排序
+            return head
+
+        lenth=0  # 记录链表长度
+        
+        node=head
+        while node:
+            lenth+=1
+            node=node.next
+        
+
+        sublenth=1
+        dummy=ListNode(next=head)
+        while sublenth<lenth: # 当有序数组的长度大于总长度时，说明全部排序完毕
+            prev,curr=dummy,dummy.next
+
+            while curr: # 说明没走到末尾
+                head1=curr
+                for i in range(1,sublenth):
+                    if curr.next:
+                        curr=curr.next
+                    else:break  # 到么到了sublen退出，要么下一个为None，退出
+                head2=curr.next
+                curr.next=None
+
+                curr=head2
+                for i in range(1,sublenth):
+                    if curr and curr.next: #这里的if curr是为了保证不存在上述那种为None退出的情况
+                        curr=curr.next
+                    else:
+                        break
+                succ=None
+                if curr:
+                    succ=curr.next # 保存剩下的链表
+                    curr.next=None
+
+                merge_l=merge(head1,head2)
+                prev.next=merge_l  # 连接已经有序的部分
+
+                while prev.next:
+                    prev=prev.next # 移动到连接上一个有序部分后的末尾
+
+                curr=succ
+            sublenth*=2
+        return dummy.next
+```
+
