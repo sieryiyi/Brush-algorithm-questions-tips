@@ -12,7 +12,7 @@ https://docs.github.com/en/github/writing-on-github/getting-started-with-writing
 
 ## 排序算法
 
-### 快速排序
+### 快速排序（分治思想）
 
 剑指 Offer II 076. 数组中的第 k 大的数字  https://leetcode.cn/problems/xx4gT2/
 
@@ -59,14 +59,16 @@ class Solution:
 
 时间复杂度O(nlogn)
 
-空间复杂度，O(n)的自顶向下，O(1)的自底向上
+空间复杂度，O(nlogn)的自顶向下，O(1)的自底向上-------------------递归调用的栈空间引起了空间复杂度
 
-自顶向下：先全部分割完，直到只有一个节点，再开始合并
+自顶向下：先全部分割完，直到只有一个节点停止，再开始合并
 
-自底向上：
+自底向上：求出链表长度，直接一次性分割成若干个长度为sublen=1的链表，进行合并，得到若干个长度为sublen=2的链表，再合并.......直到所有链表合并完毕
+
+--------------------------------------由于自底向下是直接在原有链表上进行排序，因此不需要额外O(n)的空间
 
 ```
-# Definition for singly-linked list.
+# Definition for singly-linked list.--------------------------自顶向下
 # class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
@@ -103,7 +105,7 @@ class Solution:
 
             dummy=ListNode()
             temp,temp1,temp2=dummy,l1,l2
-            # temp是最终存放合并后的链表的，在此处产生了空间复杂度
+            # temp是最终存放合并后的链表的，在此处产生了空间复杂度？
 
             while temp1 and temp2:
                 if temp1.val>=temp2.val:
