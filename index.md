@@ -55,7 +55,58 @@ class Solution:
 
 ### 堆排序
 
-### 归并排序（分治思想）
+需要两个函数：建堆+调整
+
+调库的话：
+
+```
+import heapq
+
+a=[3,1,2]
+a=heapq.heapify(a)
+heapq.heappush(a,val)
+x=heapq.heappop()
+
+```
+
+手动实现：
+
+```
+
+def findKthLargest(self, nums: List[int], k: int) -> int:
+
+        # 手动实现堆
+            # 对于「升序排列」数组，需用到大根堆；
+            # 对于「降序排列」数组，则需用到小根堆。
+        # 建堆
+        # 调整和交换
+        
+        def heap_heapify(arr,i,end) : # 调整arr中以end为结尾的一段为堆，其中，i是当前需要调整的根节点，需要调整的还有全部i以下的节点
+            j=i*2+1 # 左节点
+            while j<=end: # 存在子节点
+                if j+1<=end and arr[j+1]>arr[j]: # 存在右节点
+                    j+=1
+                if arr[i]<arr[j]:
+                    arr[i],arr[j]=arr[j],arr[i]
+                    i=j # 交换了后，i重置为交换后的子节点，继续调整子节点及以下
+                    j=2*i+1
+                else:
+                    break
+
+        end=len(nums)-1
+        for i in range((end-1)//2,-1,-1):
+            heap_heapify(nums,i,end)
+
+        # 开始找第k大的值
+
+        for i in range(k):
+            nums[0],nums[-i-1]=nums[-i-1],nums[0]  # 改变顺序后，需要重新调整堆
+            heap_heapify(nums,0,end-i-1)
+        return nums[-k]
+
+```
+
+### 归并排序（分治思想）（稳定算法）
 
 时间复杂度O(nlogn)
 
