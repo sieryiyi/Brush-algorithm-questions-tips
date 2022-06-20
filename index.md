@@ -252,3 +252,11 @@ class Solution:
 ### 冒泡排序
 
 ### 插入排序
+
+### 桶排序（取决于对桶排序时的算法是否稳定）
+
+剑指 Offer II 057. 值和下标之差都在给定的范围内 https://leetcode.cn/problems/7WqeDu/
+
+思想：
+
+
