@@ -257,6 +257,36 @@ class Solution:
 
 剑指 Offer II 057. 值和下标之差都在给定的范围内 https://leetcode.cn/problems/7WqeDu/
 
-思想：
+思想：将现有的数字放在不同的桶中，当两数字位于同一桶中，则符合要求，如何算出分到哪个桶是重点！！全部遍历后（或遍历过程中），检查当前桶中的数是否满足要求，若不满足，检查当前桶和前后两个桶中的数是否满足要求，若不满足，继续遍历，直到结尾。
+
+```
+def get_id(x):
+            # 在0-t分一个？
+            if x>=0:
+                y=x//(t+1)
+                return y
+            else:
+                return (x+1)//(t+1)-1
+
+        n=len(nums)
+        s=collections.defaultdict(list)
+        for i in range(n):
+            x=nums[i]
+            id1=get_id(x)
+            if i-k-1>=0:
+                id2=get_id(nums[i-k-1])
+                if id2 in s:
+                    s.pop(id2)
+            if id1 in s:
+                return True
+            else:
+                s[id1]=x
+            
+            if id1-1 in s and s[id1]-s[id1-1]<=t:
+                return True
+            if id1+1 in s and s[id1+1]-s[id1]<=t:
+                return True
+        return False
+```
 
 
