@@ -290,3 +290,58 @@ class Solution:
 ```
 
 此题是滑动窗口+桶排序进行解答，每一个桶中（非此题）如果有多个数字，同时有排序需求的话，可以用上面提到的快排、归并等O(nlogn)的排序算法进行排序，桶排序是否稳定、时间复杂度是多少，取决于在桶内使用的排序算法
+
+
+## 动态规划
+
+### 滚动数组（用来优化空间复杂度）
+
+可以将某些二维dp降到一维  https://leetcode.cn/problems/interleaving-string/
+
+```
+# 不应用滚动数组
+
+        m,n,l=len(s1),len(s2),len(s3)
+        if m+n!=l:
+            return False
+        
+        dp=[[False]*(n+1) for _ in range(m+1)]
+        dp[0][0]=True
+
+        for i in range(1,m+1):
+            dp[i][0]=(s1[i-1]==s3[i-1]) &(dp[i-1][0])
+        for i in range(1,n+1):
+            dp[0][i]=(s2[i-1]==s3[i-1]) &(dp[0][i-1])
+        
+        for i in range(1,m+1):
+            for j in range(1,n+1):
+                
+                dp[i][j]=(dp[i-1][j] & (s1[i-1]==s3[i+j-1])) or (dp[i][j-1]&(s2[j-1]==s3[i+j-1]))
+                
+        return dp[-1][-1]
+
+```
+```
+# 应用滚动数组
+
+        m,n,l=len(s1),len(s2),len(s3)
+        if m+n!=l:
+            return False
+        
+        dp=[False]*(n+1)
+        dp[0]=True 
+
+        for i in range(1, n + 1):  # s1的第0轮循环
+            if s2[i - 1] == s3[i - 1]:
+
+                dp[i] = dp[i - 1]
+            else:
+                break
+
+        for i in range(1, m + 1):
+            dp[0]=dp[0] & (s1[i-1]==s3[i-1])  # 注意这句！！！！！！！
+            for j in range(1, n + 1):
+                dp[j] = (dp[j] & (s1[i - 1] == s3[i + j - 1])) or (dp[j - 1] & (s2[j - 1] == s3[i + j - 1]))
+
+        return dp[-1]
+```
